@@ -15,7 +15,7 @@ export default function HomeView() {
 
   return (
     <div>
-    <div className="flex flex-wrap flex-1 justify-between items-center p-5 w-full ">
+    <div className="flex flex-wrap flex-1 justify-center items-center w-full h-auto space-x-4 ">
       {loading ? (
         <p>Loading....</p>
       ) : (
@@ -27,7 +27,7 @@ export default function HomeView() {
                 title={products.title}
                 description={products.description}
                 price={products.price}
-                images={products.images}
+                thumbnail={products.thumbnail}
                 rating={products.rating}
               />
             </div>

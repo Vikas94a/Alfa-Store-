@@ -3,7 +3,7 @@ import { Context } from "../App";
 import { Link } from "react-router-dom";
 
 export default function () {
-  const [category, setCategory] = useState<[]>([]);
+  const [category, setCategory] = useState<string[]>([]);
 
   const context = useContext(Context);
 
@@ -39,7 +39,7 @@ export default function () {
         return(
             <ul key={index} >
 <Link to={`/category/${option}`}>
-                <li  className="text-white cursor-pointer hover:text-red-500">{option}</li>
+                <li  className="text-white cursor-pointer hover:text-red-500">{option.charAt(0).toUpperCase()+ option.slice(1)}</li>
                 </Link>
             </ul>
         )

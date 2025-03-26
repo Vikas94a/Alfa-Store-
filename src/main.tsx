@@ -6,6 +6,7 @@ import ErrorView from './views/ErrorView.tsx'
 import HomeView from './views/HomeView.tsx'
 import ProductByCategory from './views/ProductByCategory.tsx'
 import ProductView from './views/ProductView.tsx'
+import CartView from './views/CartView.tsx'
 
 const router= createBrowserRouter([
   {
@@ -22,6 +23,9 @@ element:<HomeView/>
       },{
         path:"/:id",
         element:<ProductView/>
+      },{
+        path:"/cartview",
+        element:<CartView/>
       }
     ]
   }

@@ -3,18 +3,23 @@ import { useState, useEffect, useContext } from "react"
 import { useParams } from "react-router-dom"
 import { Context } from "../App"
 
+interface Review{
+    comment:string,
+    ratings:number
+}
+
 interface ProductView{
-    images:string,
+  thumbnail:string
     title:string,
     description:string, 
     price:number,
     availabilityStatus:string,
-    reviews:[]
+    reviews:Review[]
 }
 
 export default function ProductView(){
     const{id} =useParams()
-    const[productView, setProductView]= useState<ProductView[]>([])
+    const[productView, setProductView]= useState<ProductView>({} as ProductView)
 const contex = useContext(Context)
 if(!contex){
     return <div>No data yet!</div>
@@ -22,10 +27,12 @@ if(!contex){
 const{api_Url, setLoading}= contex
 
 useEffect(()=>{
+    let mounted = true
     async function fetchData(){
         try{
             setLoading(true)
             const respond = await fetch(`${api_Url}/${id}`)
+            if(!mounted) return
             if(respond.ok){
                 const data = await respond.json()
                 setProductView(data)
@@ -38,25 +45,27 @@ useEffect(()=>{
         }
     }
     fetchData()
-}, [id])
+return()=>{
+    mounted=false
+}
+
+}, [ ])
 
 console.log(productView)
 
     return(
-<div className="flex mt-9">
-    <div>
-        <img className="h-129 w-129" src={productView.images} alt={productView.title} />
+<div className="flex item-center mt-9 bg-zinc-100">
+    <div className="flex item-center w-120 p-4 m-6 bg-white shodow-2xl rounded">
+        <img className=" w-129 shadow-2xl-black" src={productView.thumbnail} alt={productView.title} />
     </div>
-    <div>
-        <div className="flex flex-col justify-center items-center m-12">
-        <h2 className="text-3xl font-bold">{productView.title}</h2>
-        <strong className="mt-8 text-red-600">{productView.availabilityStatus}</strong>
-        <p className="mt-8 text-zinc-400 w-96">{productView.description}</p>
-        <p className="text-red-600">Price {productView.price} NOK</p>
+    <div className="flex flex-col mx-auto w-full">
+     <div className="flex bg-white md:w-1/2">
+        <div className="flex  justify-between w-full ">
+        <h1 className="font-bold text-3xl">{productView.title}</h1>
+        <span className="bg-green-100 p-1 rounded-full text-sm text-green-800 text-center ">{productView.availabilityStatus}</span>
         </div>
-        <div>
-            
-        </div>
+
+     </div>
     </div>
 </div>
     )
