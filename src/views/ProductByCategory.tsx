@@ -34,12 +34,12 @@ newUrl=`${api_Url}/search?q=${searchBar}`
 console.log(newUrl)
 
 useEffect(()=>{
- 
+ let mounted = true;
     async function fetchData() {
         try{
             setLoading(true)
             const respond = await fetch(newUrl)
-            console.log(respond)
+            if(!mounted) return
             if(respond.ok){
                 const data = await respond.json()
                 console.log(data)
@@ -52,6 +52,9 @@ useEffect(()=>{
         }
     }
     fetchData()
+    return()=>{
+        mounted=false 
+      }
 },[option, searchBar])
 
 
@@ -59,7 +62,7 @@ useEffect(()=>{
 
 
     return(
-        <div className="flex flex-wrap flex-1 justify-center items-center w-full h-auto space-x-4 ">
+        <div className="min-h-screen flex flex-wrap flex-1 justify-center items-center w-full h-auto space-x-4 ">
             {productCategory?.length === 0? ( <p>Loading....</p> ):(productCategory.map((products)=>{
                 return(
                     <div key={products.id}>
